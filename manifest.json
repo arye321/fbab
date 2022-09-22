@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "fbab",
+  "version": "1",
+  "description": "Removed sponsored posts from facebook",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.facebook.com/*"
+      ],
+      "js": [
+        "main.js"
+      ]
+    }
+  ],
+  "browser_action": {
+    "default_icon": {
+      "32": "icon.png"
+    }
+  },
+  "icons": {
+    "96": "icon.png"
+  }
+}
