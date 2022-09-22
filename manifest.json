@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "fbab",
   "version": "1",
-  "description": "Removed sponsored posts from facebook",
+  "description": "Removes sponsored posts from fb",
   "content_scripts": [
     {
       "matches": [
