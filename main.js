@@ -44,8 +44,8 @@ function removeAds() {
   try {
     for (; len < useElements.length; len++) {
       const link = useElements[len].getAttribute("xlink:href").substring(1)
-      const txt = document.querySelector(`text[id=${link}]`).innerHTML
-      if (checkSponsored(txt)) {
+      const txt = document.querySelector(`text[id=${link}]`)?.innerHTML
+      if (txt && checkSponsored(txt)) {
         useElements[len].closest('div[role]').hidden = true
         // useElements[len].closest('div[role]').style.borderStyle = 'solid'
         // useElements[len].closest('div[role]').style.borderColor = 'red'
@@ -74,7 +74,6 @@ function watchfeed() {
   if (i >= 20) {
     clearInterval(timer)
   }
-  // console.log({ i })
 }
 
 watchfeed()
