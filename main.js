@@ -46,20 +46,19 @@ function removeAds() {
       const link = useElements[len].getAttribute("xlink:href").substring(1)
       const txt = document.querySelector(`text[id=${link}]`)?.innerHTML
       if (txt && checkSponsored(txt)) {
-        useElements[len].closest('div[role]').hidden = true
-        // useElements[len].closest('div[role]').style.borderStyle = 'solid'
-        // useElements[len].closest('div[role]').style.borderColor = 'red'
+        useElements[len].closest(`div[class=""]`).hidden = true
+        // useElements[len].closest(`div[class=""]`).style.borderStyle = 'solid'
+        // useElements[len].closest(`div[class=""]`).style.borderColor = 'red'
       }
     }
   } catch (e) {
     console.log('facebook adblock error:', e)
   }
 }
-let timer = setInterval(watchfeed, 500);
 var i = 0
 
 function watchfeed() {
-  const feed = document.querySelector("div[role='feed']")
+  const feed = document.querySelector(`span[id="ssrb_feed_start"]`)?.parentElement
   if (feed) {
     clearInterval(timer)
     removeAds()
@@ -75,5 +74,5 @@ function watchfeed() {
     clearInterval(timer)
   }
 }
-
+let timer = setInterval(watchfeed, 500);
 watchfeed()
