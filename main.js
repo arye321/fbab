@@ -28,6 +28,11 @@ const sponsoredTexts = [
   "Sponsorlu", // Turkish
   "Được tài trợ" // Vietnamese
 ]
+const suggestedTexts = ["Suggested for you",
+  "הצעות בשבילך", //Hebrew
+  "Рекомендация для вас", //Russian
+
+]
 
 var len = 0
 
@@ -39,17 +44,26 @@ function checkSponsored(txt) {
   }
   return false
 }
-function removeAds() {
+function removeAds(feed) {
   const useElements = document.querySelectorAll('use')
   try {
     for (; len < useElements.length; len++) {
+
       const link = useElements[len].getAttribute("xlink:href").substring(1)
       const txt = document.querySelector(`text[id=${link}]`)?.innerHTML
       if (txt && checkSponsored(txt)) {
         useElements[len].closest(`div[class=""]`).hidden = true
         // useElements[len].closest(`div[class=""]`).style.borderStyle = 'solid'
         // useElements[len].closest(`div[class=""]`).style.borderColor = 'red'
+        continue;
       }
+      useElements[len]?.closest(`div[class=""]`)?.querySelectorAll(`div[role="button"]`)?.forEach(x => {
+        if (checkSponsored(x.innerHTML)) {
+          useElements[len].closest(`div[class=""]`).hidden = true
+          // useElements[len].closest(`div[class=""]`).style.borderStyle = 'solid'
+          // useElements[len].closest(`div[class=""]`).style.borderColor = 'red'
+        }
+      })
     }
   } catch (e) {
     console.log('facebook adblock error:', e)
@@ -58,10 +72,15 @@ function removeAds() {
 var i = 0
 
 function watchfeed() {
-  const feed = document.querySelector(`span[id="ssrb_feed_start"]`)?.parentElement
+  let feed = ""
+  document.querySelectorAll(`h3[dir='auto']`)?.forEach(el => {
+    if (el.nextSibling?.className === "") {
+      feed = el.nextSibling
+    }
+  })
   if (feed) {
     clearInterval(timer)
-    removeAds()
+    removeAds(feed)
     let feedObserver = new MutationObserver(mutationRecords => {
       mutationRecords.forEach(function (mutation) {
         removeAds()
